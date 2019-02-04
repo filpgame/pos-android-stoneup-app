@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">StoneUp</string>
+    <string name="receipt_message">Chegou o dia de celebrar e dar o start em um novo ano ainda mais vitorioso\n\nBora?</string>
+    <string name="receipt_title">Obrigada por 2018</string>
+</resources>
