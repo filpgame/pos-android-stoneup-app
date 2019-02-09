@@ -1,6 +1,5 @@
 package br.com.stone.stoneup
 
-import android.content.Context
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -8,6 +7,8 @@ import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.LayoutInflater
+import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import br.com.stone.pay.core.PAL
@@ -16,10 +17,6 @@ import br.com.stone.poladroid.printer.IngenicoAdapter
 import br.com.stone.poladroid.printer.PAXAdapter
 import br.com.stone.poladroid.printer.VoidAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import android.graphics.Bitmap
-import android.view.LayoutInflater
-import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
 import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity(), MainContract.View {
