@@ -16,6 +16,6 @@ interface MainContract {
 
     interface Presenter {
         fun printPicture(bitmap: Bitmap)
-        fun printPictures(vararg bitmap: Bitmap)
+        fun printPictures(top: Bitmap, picture: Bitmap, bottom: Bitmap)
     }
 }

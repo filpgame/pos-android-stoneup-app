@@ -16,7 +16,10 @@ import org.jetbrains.anko.toast
  * @author filpgame
  * @since 2017-07-10
  */
-class MainPresenter(private val view: MainContract.View, private val printer: PrinterAdapter = IngenicoAdapter(view.viewContext)) : AnkoLogger,
+class MainPresenter(
+    private val view: MainContract.View,
+    private val printer: PrinterAdapter = IngenicoAdapter(view.viewContext)
+) : AnkoLogger,
     MainContract.Presenter, PrinterAdapter by printer {
 
     override fun printPicture(bitmap: Bitmap) {
@@ -32,14 +35,20 @@ class MainPresenter(private val view: MainContract.View, private val printer: Pr
         }
     }
 
-    override fun printPictures(vararg bitmap: Bitmap) {
+    override fun printPictures(top: Bitmap, picture: Bitmap, bottom: Bitmap) {
         doAsync {
             val status = printer.print {
                 /* Picture */
                 step(10)
                 leftIndent(10)
-                val resizedBitmap = bitmap.resize(view.imageWidth, view.imageHeight).sierraLite()
+                printBitmap(top)
+                step(10)
+                leftIndent(10)
+                val resizedBitmap = picture.resize(view.imageWidth, view.imageHeight).sierraLite()
                 printBitmap(resizedBitmap)
+                step(10)
+                leftIndent(10)
+                printBitmap(bottom)
                 step(150)
             }
         }
