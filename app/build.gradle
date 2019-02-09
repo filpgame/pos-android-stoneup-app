@@ -32,6 +32,10 @@ dependencies {
     implementation 'br.com.stone:payment-domain-lib:1.10.1'
     implementation 'br.com.stone:posandroid-pax-emvlib:1.10.1'
     implementation 'br.com.stone:posandroid-ingenico-emvlib:1.10.1'
+    implementation 'com.github.kenglxn.QRGen:android:2.3.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.anko:anko-coroutines:$anko_version"
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'

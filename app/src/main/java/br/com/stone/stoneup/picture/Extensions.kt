@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.view.View
 import android.view.animation.Animation
-import com.pax.ippi.dal.interfaces.IPrinter
+import com.pax.dal.IPrinter
 
 
 fun Bitmap.resize(newWidth: Int, newHeight: Int): Bitmap {
