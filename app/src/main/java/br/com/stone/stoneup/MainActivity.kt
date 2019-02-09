@@ -26,12 +26,11 @@ import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity(), MainContract.View {
 
-    private val conditionVariable = ConditionVariable()
-
     override val imageWidth: Int get() = 375
     override val imageHeight: Int get() = 500
     override val viewContext: Context get() = applicationContext
     private val REQUEST_CAMERA = 1034
+
     private val presenter: MainContract.Presenter by lazy {
         val adapter = when (Build.MODEL) {
             "A920" -> PAXAdapter(this)
@@ -55,7 +54,21 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         PalHelper.tryInitializePal(this)
 //        val receiptLayout = findViewById<ConstraintLayout>(R.id.receiptLayout)
-        Handler(Looper.getMainLooper()).postDelayed({ presenter.startCardDetection() }, 1500)
+        insertCardTextView.setOnClickListener {
+            showWelcome()
+        }
+    }
+
+    private fun showWelcome() {
+        val welcomeAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_slidedown_fadein)
+        welcomeAnimation.animationListener { start { welcomeTextView.show() } }
+        welcomeAnimation.fillAfter = true
+
+        val stoneUpAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_slideup)
+        stoneUpAnimation.fillAfter = true
+
+        welcomeTextView.startAnimation(welcomeAnimation)
+        stoneUpImageView.startAnimation(stoneUpAnimation)
     }
 
     private fun hideWelcome() {
