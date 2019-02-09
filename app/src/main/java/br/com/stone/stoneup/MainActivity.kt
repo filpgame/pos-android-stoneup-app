@@ -55,11 +55,6 @@ class MainActivity : AppCompatActivity(), MainContract.View, DetectCardListener,
         val animation = AnimationUtils.loadAnimation(this, R.anim.animation_bounce)
         arrowDownImageView.startAnimation(animation)
 //        val receiptLayout = findViewById<ConstraintLayout>(R.id.receiptLayout)
-        insertCardTextView.setOnClickListener {
-            startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
-                putExtra("android.intent.extras.CAMERA_FACING", 1)
-            }, REQUEST_CAMERA)
-        }
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -82,7 +77,6 @@ class MainActivity : AppCompatActivity(), MainContract.View, DetectCardListener,
     override fun onResume() {
         super.onResume()
         Handler(Looper.getMainLooper()).postDelayed({ startCardDetection() }, 1500)
-
     }
 
     override fun onPause() {
@@ -103,9 +97,9 @@ class MainActivity : AppCompatActivity(), MainContract.View, DetectCardListener,
     }
 
     override fun onIccInserted() {
-        runOnUiThread {
-            Toast.makeText(this, "Icc inserted", Toast.LENGTH_SHORT).show()
-        }
+        startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            putExtra("android.intent.extras.CAMERA_FACING", 1)
+        }, REQUEST_CAMERA)
     }
 
     override fun onCancelledDetection() {
