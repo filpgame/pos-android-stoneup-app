@@ -3,8 +3,12 @@ package br.com.stone.stoneup
 import android.content.Context
 import android.widget.Toast
 import br.com.stone.pay.core.PAL
+import br.com.stone.pay.core.PaymentProvider
 import br.com.stone.payment.domain.constants.PALResultCode
 import br.com.stone.payment.domain.datamodel.TerminalInfo
+import br.com.stone.payment.domain.exception.PalException
+import br.com.stone.payment.domain.interfaces.DetectCardListener
+import br.com.stone.payment.domain.interfaces.ReadCardInfoListener
 
 /**
  * @author felii
@@ -12,6 +16,9 @@ import br.com.stone.payment.domain.datamodel.TerminalInfo
  */
 
 object PalHelper {
+
+    private lateinit var paymentProvider: PaymentProvider
+
     private fun configureTerminalInfo(): TerminalInfo =
         TerminalInfo.builder()
             .isMagStripeFallbackEnabled(false)
@@ -40,5 +47,23 @@ object PalHelper {
         } else {
             Toast.makeText(context, "ERROR INITIALIZE PAL, CODE ERROR:" + init, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    fun startCardDetection(detectCardListener: DetectCardListener) {
+        try {
+            paymentProvider = PAL.getPaymentProvider()
+            paymentProvider.detectCard(detectCardListener)
+
+        } catch (e: PalException) {
+            println("${e.message}")
+        }
+    }
+
+    fun startReadCardInfo(readCardInfoListener: ReadCardInfoListener) {
+        paymentProvider.readCardInfo(readCardInfoListener)
+    }
+
+    fun stopCardDetection() {
+        PAL.getPaymentProvider().cancelReadCard()
     }
 }
