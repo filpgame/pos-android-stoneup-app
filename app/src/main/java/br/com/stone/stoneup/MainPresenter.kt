@@ -32,6 +32,19 @@ class MainPresenter(private val view: MainContract.View, private val printer: Pr
         }
     }
 
+    override fun printPictures(vararg bitmap: Bitmap) {
+        doAsync {
+            val status = printer.print {
+                /* Picture */
+                step(10)
+                leftIndent(10)
+                val resizedBitmap = bitmap.resize(view.imageWidth, view.imageHeight).sierraLite()
+                printBitmap(resizedBitmap)
+                step(150)
+            }
+        }
+    }
+
     fun logPrintStatus(code: Int) {
         val status = when (code) {
             0 -> "Success"
