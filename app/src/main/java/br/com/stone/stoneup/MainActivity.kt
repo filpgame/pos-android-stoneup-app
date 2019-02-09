@@ -1,5 +1,6 @@
 package br.com.stone.stoneup
 
+import android.content.Context
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -15,6 +16,10 @@ import br.com.stone.poladroid.printer.IngenicoAdapter
 import br.com.stone.poladroid.printer.PAXAdapter
 import br.com.stone.poladroid.printer.VoidAdapter
 import kotlinx.android.synthetic.main.activity_main.*
+import android.graphics.Bitmap
+import android.view.LayoutInflater
+import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity(), MainContract.View {
@@ -44,6 +49,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         setContentView(R.layout.activity_main)
         val animation = AnimationUtils.loadAnimation(this, R.anim.animation_bounce)
         arrowDownImageView.startAnimation(animation)
+//        val receiptLayout = findViewById<ConstraintLayout>(R.id.receiptLayout)
         insertCardTextView.setOnClickListener {
             startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
                 putExtra("android.intent.extras.CAMERA_FACING", 1)
@@ -61,6 +67,13 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 else -> toast("Unknown request")
             }
         }
+    }
+
+    fun generateBitmapFrom(view: View): Bitmap? {
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        inflater.inflate(R.layout.layout_receipt, null)
+
+        return null
     }
 }
 
