@@ -7,8 +7,7 @@ import br.com.stone.pay.core.PaymentProvider
 import br.com.stone.payment.domain.constants.PALResultCode
 import br.com.stone.payment.domain.datamodel.TerminalInfo
 import br.com.stone.payment.domain.exception.PalException
-import br.com.stone.payment.domain.interfaces.DetectCardListener
-import br.com.stone.payment.domain.interfaces.ReadCardInfoListener
+import br.com.stone.payment.domain.interfaces.PaymentFlowListener
 
 /**
  * @author felii
@@ -49,21 +48,14 @@ object PalHelper {
         }
     }
 
-    fun startCardDetection(detectCardListener: DetectCardListener) {
+    fun startCardDetection(paymentFlowListener: PaymentFlowListener) {
         try {
             paymentProvider = PAL.getPaymentProvider()
-            paymentProvider.detectCard(detectCardListener)
+            paymentProvider.setPaymentFlowListener(paymentFlowListener)
+            paymentProvider.startPayment(10)
 
         } catch (e: PalException) {
             println("${e.message}")
         }
-    }
-
-    fun startReadCardInfo(readCardInfoListener: ReadCardInfoListener) {
-        paymentProvider.readCardInfo(readCardInfoListener)
-    }
-
-    fun stopCardDetection() {
-        PAL.getPaymentProvider().cancelReadCard()
     }
 }
