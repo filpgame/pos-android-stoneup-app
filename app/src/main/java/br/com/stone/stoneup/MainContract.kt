@@ -1,4 +1,4 @@
-package br.com.stone.poladroid.main
+package br.com.stone.stoneup
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -12,10 +12,15 @@ interface MainContract {
         val viewContext: Context
         val imageWidth: Int
         val imageHeight: Int
+
+        fun startCamera()
+        fun showErrorMessage(message: String)
     }
 
     interface Presenter {
+        fun startCardDetection()
         fun printPicture(bitmap: Bitmap)
         fun printPictures(top: Bitmap, picture: Bitmap, bottom: Bitmap)
+        fun onCameraResult()
     }
 }
