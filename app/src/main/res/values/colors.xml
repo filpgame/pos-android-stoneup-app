@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#003820</color>
+    <color name="colorPrimaryDark">#001500</color>
+    <color name="colorAccent">#14aa4b</color>
+    <color name="grayBackground">#8296a6</color>
+    <color name="primaryDarkGray">#758898</color>
+    <color name="appBarBackground">#f9f9f9</color>
+    <color name="defaultButtonDisable">#1e14aa4b</color>
+    <color name="backgroundColorDefault">#19ffffff</color>
+    <color name="defaultText">#414b54</color>
+    <color name="appBackground">#f2f2f2</color>
+    <color name="lightText">#8296a6</color>
+    <color name="sea_buckthorn">#f9a528</color>
+    <color name="cinnabar">#eb302b</color>
+    <color name="defaultErrorBackgroundColor">#8296a6</color>
+    <color name="whiteText">#ffffff</color>
 </resources>

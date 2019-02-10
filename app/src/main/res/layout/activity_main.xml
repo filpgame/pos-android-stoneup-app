@@ -12,14 +12,13 @@
             android:layout_width="0dp"
             android:visibility="gone"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_arrow"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" android:layout_marginBottom="4dp"/>
+            app:srcCompat="@drawable/ic_arrow_down_2"
+            tools:layout_editor_absoluteY="731dp" tools:layout_editor_absoluteX="206dp"/>
     <Button
             android:text="Tirar foto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/Primary.Button.Style"
             android:id="@+id/takePictureButton" android:textAllCaps="true"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginBottom="32dp"
