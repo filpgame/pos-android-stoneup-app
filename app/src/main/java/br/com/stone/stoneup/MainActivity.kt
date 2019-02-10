@@ -5,17 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.Interpolator
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import br.com.stone.pay.core.PAL
 import br.com.stone.poladroid.animationListener
 import br.com.stone.poladroid.printer.IngenicoAdapter
 import br.com.stone.poladroid.printer.PAXAdapter
@@ -40,22 +39,14 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
         MainPresenter(this, adapter)
     }
-    private var pictureWasTaken = false
-
-    private val printerProvider by lazy {
-        PAL.getPrinterProvider()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val animation = AnimationUtils.loadAnimation(this, R.anim.animation_bounce)
         arrowDownImageView.startAnimation(animation)
-
-        PalHelper.tryInitializePal(this)
-//        val receiptLayout = findViewById<ConstraintLayout>(R.id.receiptLayout)
-        insertCardTextView.setOnClickListener {
-            showWelcome()
+        takePictureButton.setOnClickListener {
+            startCamera()
         }
     }
 
@@ -69,6 +60,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         welcomeTextView.startAnimation(welcomeAnimation)
         stoneUpImageView.startAnimation(stoneUpAnimation)
+        takePictureButton.visibility = View.INVISIBLE
+        Handler().postDelayed({
+            hideWelcome()
+        }, 2000)
     }
 
     private fun hideWelcome() {
@@ -86,8 +81,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
         welcomeTextView.startAnimation(welcomeAnimation)
         stoneUpImageView.startAnimation(stoneUpAnimation)
-        insertCardTextView.show()
-        arrowDownImageView.show()
+        takePictureButton.show()
     }
 
     override fun startCamera() {
@@ -106,14 +100,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                     val stoneup = BitmapFactory.decodeResource(resources, R.drawable.ic_stoneup_top)
                     val bottom = BitmapFactory.decodeResource(resources, R.drawable.ic_stoneup_bottom)
                     presenter.printPictures(stoneup, photo, bottom)
+                    showWelcome()
                 }
                 else -> toast("Unknown request")
             }
         }
-
-        val receiptLayout = findViewById<ConstraintLayout>(R.id.receiptLayout)
-
-//        findViewById<ImageView>(R.id.imagePreviewContainer).setImageBitmap(loadBitmapFromView(receiptLayout))
     }
 
     override fun onStop() {
@@ -123,13 +114,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun showErrorMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-    fun generateBitmapFrom(view: View): Bitmap? {
-        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.layout_receipt, null)
-
-        return null
     }
 }
 
