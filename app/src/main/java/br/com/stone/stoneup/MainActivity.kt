@@ -43,8 +43,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val animation = AnimationUtils.loadAnimation(this, R.anim.animation_bounce)
-        arrowDownImageView.startAnimation(animation)
+//        val animation = AnimationUtils.loadAnimation(this, R.anim.animation_bounce)
+//        arrowDownImageView.startAnimation(animation)
         takePictureButton.setOnClickListener {
             startCamera()
         }
