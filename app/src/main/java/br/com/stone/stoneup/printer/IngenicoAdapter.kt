@@ -37,10 +37,10 @@ class IngenicoAdapter(var context: Context) : PrinterAdapter {
             printer.getPrinter()?.setPrnGray(MAX_GRAY_SCALE)
 
             //Font size normal
-            printer.getPrinter()?.setHzSize(HZSize.DOT16x16)
-            printer.getPrinter()?.setHzScale(HZScale.SC2x2)
+            printer.getPrinter()?.setHzSize(HZSize.DOT32x24)
+            printer.getPrinter()?.setHzScale(HZScale.SC3x3)
             printer.getPrinter()?.setAscSize(ASCSize.DOT32x12)
-            printer.getPrinter()?.setAscScale(ASCScale.SC2x1SP)
+            printer.getPrinter()?.setAscScale(ASCScale.SC3x3)
         }
     }
 

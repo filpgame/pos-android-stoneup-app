@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         takePictureButton.visibility = View.INVISIBLE
         Handler().postDelayed({
             hideWelcome()
-        }, 2000)
+        }, 5000)
     }
 
     private fun hideWelcome() {
@@ -96,10 +96,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             when (requestCode) {
                 REQUEST_CAMERA -> {
                     val photo = data?.extras?.get("data") as Bitmap
-
-                    val stoneup = BitmapFactory.decodeResource(resources, R.drawable.ic_stoneup_top)
-                    val bottom = BitmapFactory.decodeResource(resources, R.drawable.ic_stoneup_bottom)
-                    presenter.printPictures(stoneup, photo, bottom)
+                    presenter.printPicture(photo)
                     showWelcome()
                 }
                 else -> toast("Unknown request")
