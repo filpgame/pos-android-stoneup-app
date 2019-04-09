@@ -2,8 +2,6 @@ package br.com.stone.stoneup
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Color
 import android.os.ConditionVariable
 import android.util.Log
 import br.com.stone.payment.domain.datamodel.CandidateAppInfo
@@ -39,49 +37,19 @@ class MainPresenter(
                 step(10)
                 leftIndent(10)
 
-                if (stoneUpWithBG == null) {
-                    val stoneUpLogo = BitmapFactory.decodeResource(
-                        view.viewContext.resources, R.drawable.ic_logo_festa
-                    ).resize(375, 78)
-                    stoneUpWithBG = Bitmap.createBitmap(
-                        stoneUpLogo.width,
-                        stoneUpLogo.height,
-                        stoneUpLogo.config
-                    )  // Create another image the same size
-                    stoneUpWithBG?.eraseColor(Color.WHITE)  // set its background to white, or whatever color you want
-                    val canvas = Canvas(stoneUpWithBG)  // create a canvas to draw on the new image
-                    canvas.drawBitmap(stoneUpLogo, 0f, 0f, null) // draw old image on the background
-                    stoneUpLogo.recycle()  // clear out old image
-                }
-
-                printBitmap(stoneUpWithBG!!)
+                val stoneUpLogo = BitmapFactory.decodeResource(
+                    view.viewContext.resources, R.drawable.hackastone_dither
+                )
+                printBitmap(stoneUpLogo.resize(300,164))
 
                 /* Picture */
                 step(10)
                 leftIndent(10)
                 val resizedBitmap = bitmap.resize(view.imageWidth, view.imageHeight).sierraLite()
                 printBitmap(resizedBitmap)
-
-                step(150)
-            }
-        }
-    }
-
-    override fun printPictures(top: Bitmap, picture: Bitmap, bottom: Bitmap) {
-        doAsync {
-            val status = printer.print {
-                /* Picture */
                 step(10)
-                leftIndent(10)
-                printBitmap(top)
-                step(10)
-                leftIndent(10)
-                val resizedBitmap = picture.resize(view.imageWidth, view.imageHeight).sierraLite()
-                printBitmap(resizedBitmap)
-                step(10)
-                leftIndent(10)
-                printBitmap(bottom)
-                step(150)
+                printString("#HackaStone")
+                step(350)
             }
         }
     }
@@ -167,9 +135,5 @@ class MainPresenter(
 
     override fun onRemoveCard() {
         Log.d(this.javaClass.simpleName, "on remove card")
-    }
-
-    companion object {
-        var stoneUpWithBG: Bitmap? = null
     }
 }

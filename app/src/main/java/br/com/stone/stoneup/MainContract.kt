@@ -20,7 +20,6 @@ interface MainContract {
     interface Presenter {
         fun startCardDetection()
         fun printPicture(bitmap: Bitmap)
-        fun printPictures(top: Bitmap, picture: Bitmap, bottom: Bitmap)
         fun onCameraResult()
     }
 }
