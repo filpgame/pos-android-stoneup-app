@@ -1,4 +1,4 @@
-package br.com.stone.poladroid.printer.ingenico
+package br.com.stone.stoneup.printer.ingenico
 
 import android.content.ComponentName
 import android.content.Context
@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.os.IBinder
 import android.os.RemoteException
 import com.usdk.apiservice.aidl.UDeviceService
+import com.usdk.apiservice.aidl.icreader.DriverID
+import com.usdk.apiservice.aidl.icreader.UICCpuReader
 import com.usdk.apiservice.aidl.printer.UPrinter
 
 class IngenicoServiceClient(val context: Context) {
@@ -21,24 +23,26 @@ class IngenicoServiceClient(val context: Context) {
         val MAX_GRAY_SCALE = 10
     }
 
-    private var mPrinter: UPrinter? = null
-    private var mDeviceService: UDeviceService? = null
+    private var printer: UPrinter? = null
+    private var icReader: UICCpuReader? = null
+    private var deviceService: UDeviceService? = null
 
     private val serviceConnection = object : ServiceConnection {
 
         override fun onServiceDisconnected(name: ComponentName) {
-            mDeviceService = null
+            deviceService = null
         }
 
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             try {
-                mDeviceService = UDeviceService.Stub.asInterface(service)
-                mDeviceService?.register(null, Binder())
+                deviceService = UDeviceService.Stub.asInterface(service)
+                deviceService?.register(null, Binder())
                 val bundle = Bundle()
                 bundle.putBoolean(EMV_LOG, true)
                 bundle.putBoolean(COMMON_LOG, true)
-                mDeviceService?.debugLog(bundle)
-                mPrinter = UPrinter.Stub.asInterface(mDeviceService?.printer)
+                deviceService?.debugLog(bundle)
+                printer = UPrinter.Stub.asInterface(deviceService?.printer)
+                icReader = UICCpuReader.Stub.asInterface(deviceService?.getICReader(DriverID.ICCPU, null))
                 linkToDeath(service)
 
             }catch (e: Exception) {
@@ -67,11 +71,19 @@ class IngenicoServiceClient(val context: Context) {
 
     fun getPrinter(): UPrinter? {
         //FIXME below its very ugly
-        while (mPrinter == null){
-            println("waiting bind")
+        while (printer == null) {
+            println("waiting printer bind")
         }
-      return mPrinter
+        return printer
     }
 
-    fun getDeviceService(): UDeviceService? = mDeviceService
+    fun getIcReader(): UICCpuReader? {
+        //FIXME below its very ugly
+        while (icReader == null) {
+            println("waiting icReader bind")
+        }
+        return icReader
+    }
+
+    fun getDeviceService(): UDeviceService? = deviceService
 }

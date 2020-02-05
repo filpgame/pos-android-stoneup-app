@@ -1,4 +1,4 @@
-package br.com.stone.poladroid.printer
+package br.com.stone.stoneup.printer
 
 import android.graphics.Bitmap
 
@@ -6,7 +6,7 @@ import android.graphics.Bitmap
  * @author filpgame
  * @since 2017-08-07
  */
-interface PrinterAdapter {
+interface PosAdapter {
     fun leftIndent(count: Int)
     fun printBitmap(bitmap: Bitmap)
     fun printString(string: String)
@@ -14,9 +14,13 @@ interface PrinterAdapter {
     fun initPrinter()
     fun startPrinting()
     fun step(count: Int)
-    fun print(toPrint: PrinterAdapter.() -> Unit) {
+    fun hasCardInserted(): Boolean
+    fun print(toPrint: PosAdapter.() -> Unit) {
         initPrinter()
         this.apply(toPrint)
         startPrinting()
     }
+
+    fun init()
+    fun startCardReader(onCardDetected: () -> Unit)
 }

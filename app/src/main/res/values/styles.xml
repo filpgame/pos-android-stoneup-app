@@ -6,6 +6,10 @@
         <item name="colorPrimary">#09AA36</item>
         <item name="colorPrimaryDark">#053A1D</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <style name="Primary.Button.Style" parent="Base.Widget.AppCompat.Button">

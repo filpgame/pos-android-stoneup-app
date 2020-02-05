@@ -1,4 +1,4 @@
-package br.com.stone.poladroid
+package br.com.stone.stoneup.picture
 
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -33,8 +33,8 @@ fun Bitmap.ordered2By2Bayer(): Bitmap {
 
     val width = width
     val height = height
-    for (y in 0..height - 1) {
-        for (x in 0..width - 1) {
+    for (y in 0 until height) {
+        for (x in 0 until width) {
 
             pixel = getPixel(x, y)
 
@@ -79,8 +79,8 @@ fun Bitmap.ordered3By3Bayer(): Bitmap {
 
     val width = width
     val height = height
-    for (y in 0..height - 1) {
-        for (x in 0..width - 1) {
+    for (y in 0 until height) {
+        for (x in 0 until width) {
 
             pixel = getPixel(x, y)
 
@@ -126,8 +126,8 @@ fun Bitmap.ordered4By4Bayer(): Bitmap {
 
     val width = width
     val height = height
-    for (y in 0..height - 1) {
-        for (x in 0..width - 1) {
+    for (y in 0 until height) {
+        for (x in 0 until width) {
 
             pixel = getPixel(x, y)
 
@@ -178,8 +178,8 @@ fun Bitmap.ordered8By8Bayer(): Bitmap {
 
     val width = width
     val height = height
-    for (y in 0..height - 1) {
-        for (x in 0..width - 1) {
+    for (y in 0 until height) {
+        for (x in 0 until width) {
 
             pixel = getPixel(x, y)
 
@@ -224,8 +224,8 @@ fun Bitmap.floydSteinberg(): Bitmap {
     val height = height
     var error: Int
     val errors = Array(width) { IntArray(height) }
-    for (y in 0..height - 1 - 1) {
-        for (x in 1..width - 1 - 1) {
+    for (y in 0 until height - 1) {
+        for (x in 1 until width - 1) {
 
             pixel = getPixel(x, y)
 
@@ -274,8 +274,8 @@ fun Bitmap.jarvisJudiceNinke(): Bitmap {
     val height = height
     var error: Int
     val errors = Array(width) { IntArray(height) }
-    for (y in 0..height - 2 - 1) {
-        for (x in 2..width - 2 - 1) {
+    for (y in 0 until height - 2) {
+        for (x in 2 until width - 2) {
 
             pixel = getPixel(x, y)
 
@@ -335,8 +335,8 @@ fun Bitmap.sierra(): Bitmap {
     val height = height
     var error: Int
     val errors = Array(width) { IntArray(height) }
-    for (y in 0..height - 2 - 1) {
-        for (x in 2..width - 2 - 1) {
+    for (y in 0 until height - 2) {
+        for (x in 2 until width - 2) {
 
             pixel = getPixel(x, y)
 
@@ -392,8 +392,8 @@ fun Bitmap.twoRowSierra(): Bitmap {
     val height = height
     var error: Int
     val errors = Array(width) { IntArray(height) }
-    for (y in 0..height - 1 - 1) {
-        for (x in 2..width - 2 - 1) {
+    for (y in 0 until height - 1) {
+        for (x in 2 until width - 2) {
 
             pixel = getPixel(x, y)
 
@@ -495,8 +495,8 @@ fun Bitmap.atkinson(): Bitmap {
     val height = height
     var error: Int
     val errors = Array(width) { IntArray(height) }
-    for (y in 0..height - 2 - 1) {
-        for (x in 1..width - 2 - 1) {
+    for (y in 0 until height - 2) {
+        for (x in 1 until width - 2) {
 
             pixel = getPixel(x, y)
 
@@ -549,8 +549,8 @@ fun Bitmap.stucki(): Bitmap {
     val height = height
     var error: Int
     val errors = Array(width) { IntArray(height) }
-    for (y in 0..height - 2 - 1) {
-        for (x in 2..width - 2 - 1) {
+    for (y in 0 until height - 2) {
+        for (x in 2 until width - 2) {
 
             pixel = getPixel(x, y)
 
@@ -608,8 +608,8 @@ fun Bitmap.burkes(): Bitmap {
     val height = height
     var error: Int
     val errors = Array(width) { IntArray(height) }
-    for (y in 0..height - 1 - 1) {
-        for (x in 2..width - 2 - 1) {
+    for (y in 0 until height - 1) {
+        for (x in 2 until width - 2) {
 
             pixel = getPixel(x, y)
 
@@ -661,8 +661,8 @@ fun Bitmap.falseFloydSteinberg(): Bitmap {
     val height = height
     var error: Int
     val errors = Array(width) { IntArray(height) }
-    for (y in 0..height - 1 - 1) {
-        for (x in 1..width - 1 - 1) {
+    for (y in 0 until height - 1) {
+        for (x in 1 until width - 1) {
 
             pixel = getPixel(x, y)
 
@@ -698,10 +698,10 @@ fun Bitmap.simpleLeftToRightErrorDiffusion(): Bitmap {
 
     val width = width
     val height = height
-    for (y in 0..height - 1) {
+    for (y in 0 until height) {
         var error = 0
 
-        for (x in 0..width - 1) {
+        for (x in 0 until width) {
 
             pixel = getPixel(x, y)
 
@@ -741,9 +741,9 @@ fun Bitmap.randomDithering(): Bitmap {
 
     val width = width
     val height = height
-    for (y in 0..height - 1) {
+    for (y in 0 until height) {
 
-        for (x in 0..width - 1) {
+        for (x in 0 until width) {
 
             pixel = getPixel(x, y)
 
@@ -778,8 +778,8 @@ fun Bitmap.simpleThreshold(): Bitmap {
     val width = width
     val height = height
 
-    for (y in 0..height - 1) {
-        for (x in 0..width - 1) {
+    for (y in 0 until height) {
+        for (x in 0 until width) {
 
             pixel = getPixel(x, y)
 

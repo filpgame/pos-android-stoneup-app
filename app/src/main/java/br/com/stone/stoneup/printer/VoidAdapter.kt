@@ -1,13 +1,14 @@
-package br.com.stone.poladroid.printer
+package br.com.stone.stoneup.printer
 
 import android.graphics.Bitmap
+import android.os.Handler
 import android.util.Log
 
 /**
  * @author filpgame
  * @since 2017-08-07
  */
-class VoidAdapter : PrinterAdapter {
+class VoidAdapter : PosAdapter {
     private val TAG = "VoidAdapter"
 
     override fun initPrinter() {
@@ -20,6 +21,23 @@ class VoidAdapter : PrinterAdapter {
 
     override fun step(count: Int) {
         Log.d(TAG, "step() called. parameters: count = $count")
+    }
+
+    override fun hasCardInserted(): Boolean {
+        Log.d("VoidAdapter", "hasCardInserted() called")
+        return (System.currentTimeMillis() / 1000) % 2 == 0L
+    }
+
+    override fun init() {
+        Log.d("VoidAdapter", "init() called")
+    }
+
+    override fun startCardReader(onCardDetected: () -> Unit) {
+        Log.d(TAG, "startCardReader() called. parameters: onCardDetected = $onCardDetected")
+        Handler().postDelayed({
+            Log.d(TAG, "Invoking onCardDetected callback")
+            onCardDetected.invoke()
+        }, 1000)
     }
 
     override fun leftIndent(count: Int) {

@@ -4,22 +4,15 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
-import android.os.ConditionVariable
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
-import br.com.stone.payment.domain.datamodel.CandidateAppInfo
-import br.com.stone.payment.domain.datamodel.PaymentInfo
-import br.com.stone.payment.domain.datamodel.Result
-import br.com.stone.payment.domain.datamodel.TransAppSelectedInfo
-import br.com.stone.payment.domain.interfaces.PaymentFlowCallback
-import br.com.stone.payment.domain.interfaces.PaymentFlowListener
-import br.com.stone.poladroid.printer.IngenicoAdapter
-import br.com.stone.poladroid.printer.PrinterAdapter
-import br.com.stone.poladroid.resize
-import br.com.stone.poladroid.sierraLite
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.debug
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.toast
+import br.com.stone.stoneup.picture.PaymentFlowListenerStub
+import br.com.stone.stoneup.picture.resize
+import br.com.stone.stoneup.picture.sierraLite
+import br.com.stone.stoneup.printer.IngenicoAdapter
+import br.com.stone.stoneup.printer.PosAdapter
+import org.jetbrains.anko.*
 
 
 /**
@@ -28,14 +21,12 @@ import org.jetbrains.anko.toast
  */
 class MainPresenter(
     private val view: MainContract.View,
-    private val printer: PrinterAdapter = IngenicoAdapter(view.viewContext)
-) : AnkoLogger, MainContract.Presenter, PaymentFlowListener, PrinterAdapter by printer {
-
-    private val conditionVariable = ConditionVariable()
+    private val pos: PosAdapter = IngenicoAdapter(view.viewContext)
+) : AnkoLogger, MainContract.Presenter, PaymentFlowListenerStub(), PosAdapter by pos {
 
     override fun printPicture(bitmap: Bitmap) {
         doAsync {
-            val status = printer.print {
+            pos.print {
                 step(10)
                 leftIndent(10)
 
@@ -49,7 +40,7 @@ class MainPresenter(
                         stoneUpLogo.config
                     )  // Create another image the same size
                     stoneUpWithBG?.eraseColor(Color.WHITE)  // set its background to white, or whatever color you want
-                    val canvas = Canvas(stoneUpWithBG)  // create a canvas to draw on the new image
+                    val canvas = Canvas(stoneUpWithBG!!)  // create a canvas to draw on the new image
                     canvas.drawBitmap(stoneUpLogo, 0f, 0f, null) // draw old image on the background
                     stoneUpLogo.recycle()  // clear out old image
                 }
@@ -69,7 +60,7 @@ class MainPresenter(
 
     override fun printPictures(top: Bitmap, picture: Bitmap, bottom: Bitmap) {
         doAsync {
-            val status = printer.print {
+            pos.print {
                 /* Picture */
                 step(10)
                 leftIndent(10)
@@ -106,68 +97,52 @@ class MainPresenter(
     }
 
     override fun onCameraResult() {
-        Thread.sleep(5000)
-        conditionVariable.open()
+//        Thread.sleep(5000)
+    }
+
+    override fun init() {
+        pos.init()
     }
 
     override fun startCardDetection() {
-        PalHelper.startCardDetection(this)
+        Log.d("MainPresenter", "startCardDetection() called")
+        pos.startCardReader {
+            Log.d("MainPresenter", "startCardReader() callback called")
+            doWhenCardInserted()
+        }
     }
 
-    override fun onCardDetection() {
-        Log.d(this.javaClass.simpleName, "waiting card detection")
-    }
-
-    override fun onCardDetected(p0: Boolean) {
-        Log.d(this.javaClass.simpleName, "card detected")
-    }
-
-    override fun onOnlineProcessing(p0: PaymentInfo?) {
-
-    }
-
-    override fun onTransAppSelection(p0: MutableList<CandidateAppInfo>?) {
-
-    }
-
-    override fun onCvvInsertion() {
-
-    }
-
-    override fun onInsertPassword(p0: Boolean, p1: Int, p2: Boolean) {
-    }
-
-    override fun onTransAppSelected(p0: TransAppSelectedInfo?) {
-    }
-
-    override fun onCallbackInstance(p0: PaymentFlowCallback?) {
-    }
-
-    override fun onCardReTap() {
-    }
-
-    override fun onResult(p0: Result?) {
-        Log.d(this.javaClass.simpleName, "${p0?.message}")
-        view.startCamera()
-//        object : Thread() {
-////            override fun run() {
-////                onCameraResult()
-////            }
-////        }.start()
-        conditionVariable.block()
-    }
-
-    override fun onInstallmentSelection() {
-    }
-
-    override fun onCardRemoved() {
-        Log.d(this.javaClass.simpleName, "on card removed")
+    private fun doWhenCardInserted() {
+        Log.d("MainPresenter", "doWhenCardInserted() called")
+        printSlip()
+        view.viewContext.runOnUiThread {
+            view.hideIntro()
+            view.showWelcome()
+        }
+        Handler(Looper.getMainLooper()).postDelayed({
+            view.hideWelcome()
+            view.showIntro()
+        }, 5000)
+        while (pos.hasCardInserted()) {
+            Log.d("MainPresenter", "pos.hasCardInserted() = true")
+        }
+        Log.d("MainPresenter", "pos.hasCardInserted() = ${pos.hasCardInserted()}")
         startCardDetection()
     }
 
-    override fun onRemoveCard() {
-        Log.d(this.javaClass.simpleName, "on remove card")
+    override fun printSlip() {
+        doAsync {
+            pos.print {
+                step(20)
+                val filipeta = BitmapFactory.decodeResource(
+                    view.viewContext.resources, R.drawable.filipeta
+                ).resize(375, 723)
+                printBitmap(filipeta)
+                step(150)
+            }
+        }
     }
+
 
     companion object {
         var stoneUpWithBG: Bitmap? = null

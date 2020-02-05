@@ -1,4 +1,4 @@
-package br.com.stone.poladroid.printer
+package br.com.stone.stoneup.printer
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -9,11 +9,23 @@ import com.pax.neptunelite.api.NeptuneLiteUser
  * @author filpgame
  * @since 2017-08-07
  */
-class PAXAdapter(context: Context) : PrinterAdapter {
+class PAXAdapter(context: Context) : PosAdapter {
     val printer: IPrinter by lazy { NeptuneLiteUser.getInstance().getDal(context).printer }
 
     override fun step(count: Int) {
         printer.step(count)
+    }
+
+    override fun hasCardInserted(): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun init() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun startCardReader(onCardDetected: () -> Unit) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun initPrinter() {
