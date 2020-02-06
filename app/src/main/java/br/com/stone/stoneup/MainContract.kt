@@ -19,6 +19,8 @@ interface MainContract {
         fun hideIntro()
         fun showWelcome()
         fun hideWelcome()
+        fun showPrinting()
+        fun hidePrinting()
     }
 
     interface Presenter {
@@ -27,6 +29,6 @@ interface MainContract {
         fun printPicture(bitmap: Bitmap)
         fun printSlip()
         fun printPictures(top: Bitmap, picture: Bitmap, bottom: Bitmap)
-        fun onCameraResult()
+        fun onCameraResult(bitmap: Bitmap)
     }
 }

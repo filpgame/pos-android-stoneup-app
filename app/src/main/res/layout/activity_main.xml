@@ -98,4 +98,26 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/img_message" />
+
+
+    <ImageView
+            android:id="@+id/printingImageView"
+            android:layout_width="638px"
+            android:layout_height="155px"
+            android:src="@drawable/img_printing"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/yourPictureImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+            android:id="@+id/yourPictureImageView"
+            android:layout_width="665px"
+            android:layout_height="155px"
+            android:src="@drawable/img_your_picture"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

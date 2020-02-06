@@ -45,13 +45,17 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
         pulsator.start()
 
-        val bounceAnimation = AnimationUtils.loadAnimation(this, R.anim.bounce)
-        arrowDownImageView.startAnimation(bounceAnimation)
+        startArrowBounceAnimation()
         presenter.init()
         Handler().postDelayed({
             presenter.startCardDetection()
         }, 1000)
         
+    }
+
+    private fun startArrowBounceAnimation() {
+        val bounceAnimation = AnimationUtils.loadAnimation(this, R.anim.bounce)
+        arrowDownImageView.startAnimation(bounceAnimation)
     }
 
     override fun showIntro() {
@@ -62,6 +66,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 insertCardImageView.visibility = View.VISIBLE
                 revolutionImageView.visibility = View.VISIBLE
                 pulsator.visibility = View.VISIBLE
+                startArrowBounceAnimation()
             }
         }
         arrowDownImageView.startAnimation(fadeIn)
@@ -110,6 +115,30 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         messageImageView.startAnimation(fadeOut)
     }
 
+    override fun showPrinting() {
+        val fadeIn = AnimationUtils.loadAnimation(this, R.anim.fadein)
+        fadeIn.animationListener {
+            end {
+                printingImageView.visibility = View.VISIBLE
+                yourPictureImageView.visibility = View.VISIBLE
+            }
+        }
+        printingImageView.startAnimation(fadeIn)
+        yourPictureImageView.startAnimation(fadeIn)
+    }
+
+    override fun hidePrinting() {
+        val fadeOut = AnimationUtils.loadAnimation(this, R.anim.fadeout)
+        fadeOut.animationListener {
+            end {
+                printingImageView.visibility = View.INVISIBLE
+                yourPictureImageView.visibility = View.INVISIBLE
+            }
+        }
+        printingImageView.startAnimation(fadeOut)
+        yourPictureImageView.startAnimation(fadeOut)
+    }
+
 
     override fun startCamera() {
         startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
@@ -119,12 +148,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        presenter.onCameraResult()
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_CAMERA -> {
                     val photo = data?.extras?.get("data") as Bitmap
-                    presenter.printPicture(photo)
+                    presenter.onCameraResult(photo)
                 }
                 else -> toast("Unknown request")
             }

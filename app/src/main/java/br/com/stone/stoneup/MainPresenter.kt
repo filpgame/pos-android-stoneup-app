@@ -96,8 +96,17 @@ class MainPresenter(
         view.viewContext.toast("[PRINT STATUS] $status")
     }
 
-    override fun onCameraResult() {
-//        Thread.sleep(5000)
+    override fun onCameraResult(bitmap: Bitmap) {
+        printPicture(bitmap)
+        view.viewContext.runOnUiThread {
+            view.hideIntro()
+            view.showPrinting()
+        }
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            view.hidePrinting()
+            view.showIntro()
+        }, 3000)
     }
 
     override fun init() {
